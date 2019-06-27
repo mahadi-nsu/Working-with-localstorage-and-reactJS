@@ -5,37 +5,47 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       works : []
+      works: []
     };
-    this.add = this.add.bind(this)
+    this.add = this.add.bind(this);
   }
 
-  add()
-  {
+  add() {
     var title = this.refs.title.value;
-    if(localStorage.getItem('works') == null){
+    if (localStorage.getItem("works") == null) {
       var works = [];
       works.push(title);
-      localStorage.setItem('works',JSON.stringify(works));
-    }else{
-      var works  = JSON.parse(localStorage.getItem('works'));
+      localStorage.setItem("works", JSON.stringify(works));
+    } else {
+      var works = JSON.parse(localStorage.getItem("works"));
       works.push(title);
-      localStorage.setItem('works',JSON.stringify(works));
+      localStorage.setItem("works", JSON.stringify(works));
     }
 
-
     this.setState({
-      works : JSON.parse(localStorage.getItem('works'))
-    })
+      works: JSON.parse(localStorage.getItem("works"))
+    });
   }
 
   render() {
-    console.log(this.state.works)
+    // console.log(this.state.works);
+    const {works} = this.state;
+    console.log(works)
     return (
       <div>
         <h2>TODO USING LOCAL STORAGE</h2>
         <input type="text" placeholder="Enter a title" ref="title" />
-        <input type="button" value = "Add" onClick = {this.add}/>
+        <input type="button" value="Add" onClick={this.add} />
+
+        <ul>
+          {works.map(function(index,work){
+            return(
+              <li key = {index}>
+                {work}
+              </li>
+            )
+          })}
+        </ul>
       </div>
     );
   }
