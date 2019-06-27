@@ -8,6 +8,7 @@ class App extends Component {
       works: []
     };
     this.add = this.add.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   add() {
@@ -17,7 +18,7 @@ class App extends Component {
       works.push(title);
       localStorage.setItem("works", JSON.stringify(works));
     } else {
-      var works = JSON.parse(localStorage.getItem("works"));
+       works = JSON.parse(localStorage.getItem("works"));
       works.push(title);
       localStorage.setItem("works", JSON.stringify(works));
     }
@@ -27,8 +28,21 @@ class App extends Component {
     });
   }
 
+  delete(e){
+    // console.log(index);
+    var index  =  e.target.getAttribute('data-key');
+    // console.log(index);
+    var list =  JSON.parse(localStorage.getItem('works'));
+    list.splice(index,1);
+
+    this.setState({
+      works : list
+    });
+
+    localStorage.setItem('works',JSON.stringify(list))
+  }
+
   render() {
-    // console.log(this.state.works);
     const {works} = this.state;
     console.log(works)
     return (
@@ -38,13 +52,13 @@ class App extends Component {
         <input type="button" value="Add" onClick={this.add} />
 
         <ul>
-          {works.map(function(index,work){
+          {works.map(function(work,index){
             return(
               <li key = {index}>
-                {work}
+                {work} <input type = "button" value = "x" onClick = {this.delete} data-key = {index}/>
               </li>
             )
-          })}
+          },this)}
         </ul>
       </div>
     );
